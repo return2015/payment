@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/BasicTemplate.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{searchPaymentController.initialize}" />
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="content">
+
+
+		<div class="title ui-widget-header ui-corner-all">
+			<h:panelGrid style="margin:auto;">
+		GESTIONAR PAGOS
+		</h:panelGrid>
+
+		</div>
+
+		<h:panelGrid style="margin:auto;text-align:center;">
+			<p:messages id="messages"></p:messages>
+		</h:panelGrid>
+
+		<h:form id="form">
+			<h:panelGrid style="margin:auto;">
+
+
+				<h:panelGrid columns="4">
+
+					<p:outputLabel value="Fecha"></p:outputLabel>
+					<p:calendar navigator="true"
+						value="#{searchPaymentController.date}" pattern="dd-MM-yyyy"></p:calendar>
+
+
+					<p:outputLabel value="Empleado:"></p:outputLabel>
+					<p:selectOneMenu id="employee"
+						value="#{searchPaymentController.employeeSelected}">
+						<f:selectItem itemLabel="Seleccione..." itemValue="" />
+						<f:selectItems value="#{searchPaymentController.employees}"></f:selectItems>
+					</p:selectOneMenu>
+
+
+				</h:panelGrid>
+				<h:panelGrid style="margin:auto;text-align:center;">
+					<p:commandButton icon="ui-icon-search"
+						actionListener="#{searchPaymentController.search}" value="Buscar"
+						process="@form"
+						update=":form:searchTable :messages :form:paymentId :form:editButtom">
+					</p:commandButton>
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid columns="3">
+				<p:commandButton icon="ui-icon-plus" value="Agregar"
+					immediate="true" action="add_payment.xhtml?faces-redirect=true">
+				</p:commandButton>
+
+				<p:commandButton id="editButtom" immediate="true"
+					icon="ui-icon-pencil" value="Editar" update=":messages"
+					actionListener="#{searchPaymentController.edit}"
+					disabled="#{searchPaymentController.paymentSelected==null}">
+					<p:ajax event="dialogReturn" update=":form:searchTable"
+						listener="#{searchPaymentController.afterEdit}" />
+				</p:commandButton>
+
+				<p:outputLabel id="paymentId"
+					value="Reclutador seleccionado: #{searchPaymentController.paymentSelected!=null?searchPaymentController.paymentSelected.id:''}">
+				</p:outputLabel>
+			</h:panelGrid>
+
+
+			<p:dataTable value="#{searchPaymentController.payments}" var="r"
+				rowKey="#{r.id}" paginator="true" rows="10" id="searchTable"
+				selectionMode="single"
+				selection="#{searchPaymentController.paymentSelected}">
+
+				<p:ajax event="rowSelect" update=":form:paymentId :form:editButtom" />
+				<p:ajax event="rowUnselect"
+					update=":form:paymentId :form:editButtom" />
+
+				<p:column headerText="Id">
+					<h:outputText value="#{r.id}"></h:outputText>
+				</p:column>
+
+				<p:column headerText="Porcentaje inicial">
+					<h:outputText value="#{r.percentStart}"></h:outputText>
+				</p:column>
+
+				<p:column headerText="Porcentaje final">
+					<h:outputText value="#{r.percentEnd}"></h:outputText>
+				</p:column>
+				
+				<p:column headerText="Fecha pago">
+					<h:outputText value="#{r.date}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+
+
+
+			</p:dataTable>
+
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>
