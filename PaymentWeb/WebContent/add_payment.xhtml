@@ -32,22 +32,14 @@
 		<h:form id="form">
 
 
-			<h:panelGrid columns="3" style="margin:auto;"
+			<h:panelGrid columns="2" style="margin:auto;"
 				rowClasses="panelgrid_center_row">
 
 
 				<h:panelGrid>
-
-
-
 					<h:panelGrid columns="2">
 
-						<p:outputLabel value="Fecha de pago"></p:outputLabel>
-						<p:calendar id="paymentDate"
-							value="#{addPaymentController.paymentSelected.date}"
-							pattern="dd-MM-yyyy " required="true"
-							requiredMessage="Debe seleccionar fecha de agendamiento">
-						</p:calendar>
+
 
 						<p:outputLabel value="Empleado"></p:outputLabel>
 						<p:selectOneMenu required="true"
@@ -57,94 +49,126 @@
 							<f:selectItems value="#{addPaymentController.employees}"></f:selectItems>
 							<p:ajax immediate="true"
 								listener="#{addPaymentController.onChangeEmployee}"
-								update=":form:objectivesTable :form:basic :form:objective :form:incentive_total :messages"></p:ajax>
+								update=":form:objectivesTable :form:basic :form:objective :form:incentive_total
+								:form:objectiveId :form:commission :form:incentive :form:total 
+								:form:paymentDate :form:sales
+								:messages"></p:ajax>
 						</p:selectOneMenu>
 
 
 
 						<p:outputLabel value="Objetivo"></p:outputLabel>
 						<p:outputLabel id="objective"
-							value="#{addPaymentController.paymentSelected.employee.objective}"></p:outputLabel>
+							value="#{addPaymentController.paymentSelected.employee.objective}">
+							<f:convertNumber type="currency" locale="es_PE" />
+						</p:outputLabel>
 
 						<p:outputLabel value="Salario Básico"></p:outputLabel>
 						<p:outputLabel id="basic"
-							value="#{addPaymentController.paymentSelected.employee.basic}"></p:outputLabel>
+							value="#{addPaymentController.paymentSelected.employee.basic}">
+							<f:convertNumber type="currency" locale="es_PE" />
+						</p:outputLabel>
 
 						<p:outputLabel value="Incentivo"></p:outputLabel>
 						<p:outputLabel id="incentive_total"
-							value="#{addPaymentController.paymentSelected.employee.incentive}"></p:outputLabel>
+							value="#{addPaymentController.paymentSelected.employee.incentive}">
+							<f:convertNumber type="currency" locale="es_PE" />
+						</p:outputLabel>
 
 
-						<p:outputLabel value="Objetivos"></p:outputLabel>
 
-						<p:dataTable var="o" id="objectivesTable"
-							value="#{addPaymentController.paymentSelected.employee.objectives}">
-
-							<p:column headerText="Id">
-								<h:outputText value="#{o.id}"></h:outputText>
-							</p:column>
-							
-							<p:column headerText="Porcentaje inicial">
-								<h:outputText value="#{o.percentStart}"></h:outputText>
-							</p:column>
-
-							<p:column headerText="Porcentaje final">
-								<h:outputText value="#{o.percentEnd}"></h:outputText>
-							</p:column>
-
-							<p:column headerText="Porcentaje comisión">
-								<h:outputText value="#{o.commission}"></h:outputText>
-							</p:column>
-
-							<p:column headerText="Porcentaje incentivo">
-								<h:outputText value="#{o.incentive}"></h:outputText>
-							</p:column>
-
-						</p:dataTable>
-
-
-						<p:outputLabel value="Ventas"></p:outputLabel>
-						<p:inputText style="width: 100px;" id="sales"
-							value="#{addPaymentController.paymentSelected.sale}"
-							required="true" requiredMessage="Debe ingresar ventas.">
-							<p:ajax event="keyup"
-								listener="#{addPaymentController.onKeyUpSale}" immediate="true"
-								update=":form:objectiveId :form:commission :form:incentive :form:total :messages">
-							</p:ajax>
-						</p:inputText>
-						
-						<p:outputLabel value="Objetivo Detectado:"></p:outputLabel>
-						<p:outputLabel id="objectiveId"
-							value="#{addPaymentController.objectiveDetected.id}"></p:outputLabel>
-
-						<p:outputLabel value="Comisión"></p:outputLabel>
-						<p:outputLabel id="commission"
-							value="#{addPaymentController.paymentSelected.commission}"></p:outputLabel>
-
-						<p:outputLabel value="Incentivo"></p:outputLabel>
-						<p:outputLabel id="incentive"
-							value="#{addPaymentController.paymentSelected.incentive}"></p:outputLabel>
-
-						<p:outputLabel value="Total"></p:outputLabel>
-						<p:outputLabel id="total"
-							value="#{addPaymentController.paymentSelected.total}"></p:outputLabel>
 
 
 					</h:panelGrid>
 
+					<p:dataTable var="o" id="objectivesTable" style="width:300px;"
+						value="#{addPaymentController.paymentSelected.employee.objectives}">
 
 
+						<p:column headerText="Objetivo">
+							<h:outputText value="#{o.percent}">
+								<f:convertNumber type="percent" minFractionDigits="2"
+									maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
 
+						<p:column headerText="% comisión">
+							<h:outputText value="#{o.percentCommission}">
+								<f:convertNumber type="percent" minFractionDigits="2"
+									maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
 
-					<h:panelGrid style="margin:auto;text-align:center;">
-						<p:commandButton actionListener="#{addPaymentController.add}"
-							value="Agregar Pago" update="@form :messages">
-						</p:commandButton>
-					</h:panelGrid>
+						<p:column headerText="% incentivo">
+							<h:outputText value="#{o.percentIncentive}">
+								<f:convertNumber type="percent" minFractionDigits="2"
+									maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+					</p:dataTable>
 
 				</h:panelGrid>
 
+
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Fecha de pago"></p:outputLabel>
+					<p:calendar id="paymentDate"
+						value="#{addPaymentController.paymentSelected.date}"
+						pattern="dd-MM-yyyy " required="true"
+						requiredMessage="Debe seleccionar fecha de agendamiento">
+					</p:calendar>
+
+
+					<p:outputLabel value="Ventas"></p:outputLabel>
+					<p:inputText style="width: 100px;" id="sales"
+						value="#{addPaymentController.paymentSelected.sale}"
+						required="true" requiredMessage="Debe ingresar ventas.">
+						<p:ajax event="keyup"
+							listener="#{addPaymentController.onKeyUpSale}" immediate="true"
+							update=":form:objectiveId :form:commission :form:incentive :form:total :messages">
+						</p:ajax>
+					</p:inputText>
+
+					<p:outputLabel value="Objetivo:"></p:outputLabel>
+					<p:outputLabel id="objectiveId"
+						value="#{addPaymentController.objectiveDetected.percent}">
+						<f:convertNumber type="percent" />
+					</p:outputLabel>
+
+					<p:outputLabel value="Comisión"></p:outputLabel>
+					<p:outputLabel id="commission"
+						value="#{addPaymentController.paymentSelected.commissionTotal}">
+						<f:convertNumber type="currency" locale="es_PE" />
+					</p:outputLabel>
+
+					<p:outputLabel value="Incentivo"></p:outputLabel>
+					<p:outputLabel id="incentive"
+						value="#{addPaymentController.paymentSelected.incentiveTotal}">
+						<f:convertNumber type="currency" locale="es_PE" />
+					</p:outputLabel>
+
+					<p:outputLabel value="Total"></p:outputLabel>
+					<p:outputLabel id="total"
+						value="#{addPaymentController.paymentSelected.total}">
+						<f:convertNumber type="currency" locale="es_PE" />
+					</p:outputLabel>
+
+
+
+				</h:panelGrid>
+
+
+
+
 			</h:panelGrid>
+
+			<h:panelGrid style="margin:auto;text-align:center;">
+				<p:commandButton actionListener="#{addPaymentController.add}"
+					value="Agregar Pago" update="@form :messages">
+				</p:commandButton>
+			</h:panelGrid>
+
 
 
 

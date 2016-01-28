@@ -7,25 +7,26 @@ import javax.ejb.Stateless;
 
 import com.returnsoft.payment.eao.EmployeeEao;
 import com.returnsoft.payment.entity.Employee;
+import com.returnsoft.payment.exception.EmployeeNotFoundException;
 import com.returnsoft.payment.exception.ServiceException;
 import com.returnsoft.payment.service.EmployeeService;
+
 @Stateless
 public class EmployeeServiceimpl implements EmployeeService {
 
 	@EJB
 	private EmployeeEao employeeEao;
-	
+
 	@Override
-	public Employee findById(Integer employeeId)
-			throws ServiceException {
+	public Employee findById(Integer employeeId) throws ServiceException {
 		try {
 			Employee employee = employeeEao.findById(employeeId);
 			return employee;
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (e.getMessage()!=null && e.getMessage().trim().length()>0) {
-				throw new ServiceException(e.getMessage(), e);	
-			}else{
+			if (e.getMessage() != null && e.getMessage().trim().length() > 0) {
+				throw new ServiceException(e.getMessage(), e);
+			} else {
 				throw new ServiceException();
 			}
 		}
@@ -45,6 +46,47 @@ public class EmployeeServiceimpl implements EmployeeService {
 				throw new ServiceException();
 			}
 		}
+	}
+
+	@Override
+	public void add(Employee employee) throws ServiceException {
+		try {
+			employeeEao.add(employee);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (e.getMessage() != null && e.getMessage().trim().length() > 0) {
+				throw new ServiceException(e.getMessage(), e);
+			} else {
+				throw new ServiceException();
+			}
+		}
+
+	}
+
+	@Override
+	public Employee edit(Employee employee) throws ServiceException {
+		try {
+			
+			Employee employeeFound = employeeEao.findById(employee.getId());
+
+			if (employeeFound == null) {
+				throw new EmployeeNotFoundException();
+			}
+
+			employee = employeeEao.edit(employee);
+
+			return employee;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (e.getMessage() != null && e.getMessage().trim().length() > 0) {
+				throw new ServiceException(e.getMessage(), e);
+			} else {
+				throw new ServiceException();
+			}
+		} 
+		
 	}
 
 }

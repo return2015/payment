@@ -1,5 +1,7 @@
 package com.returnsoft.payment.service.impl;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -13,26 +15,24 @@ import com.returnsoft.payment.service.UserService;
 
 @Stateless
 public class UserServiceImpl implements UserService {
-	
+
 	@EJB
 	private UserEao userEao;
-	
+
 	@Override
-	public User findById(Integer userId)
-			throws ServiceException {
+	public User findById(Integer userId) throws ServiceException {
 		try {
 			User user = userEao.findById(userId);
 			return user;
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (e.getMessage()!=null && e.getMessage().trim().length()>0) {
-				throw new ServiceException(e.getMessage(), e);	
-			}else{
+			if (e.getMessage() != null && e.getMessage().trim().length() > 0) {
+				throw new ServiceException(e.getMessage(), e);
+			} else {
 				throw new ServiceException();
 			}
 		}
 	}
-	
 
 	@Override
 	public User doLogin(String username, String password) throws ServiceException {
@@ -40,22 +40,76 @@ public class UserServiceImpl implements UserService {
 
 			User user = userEao.findByUsername(username);
 
-			if (user==null) {
+			if (user == null) {
 				throw new UserNotFoundException();
 			}
-			
+
 			if (!user.getPassword().equals(password)) {
 				throw new UserWrongPasswordException();
 			}
-			
+
 			if (user.getIsActive().equals(false)) {
 				throw new UserInactiveException();
 			}
 
-			
+			return user;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (e.getMessage() != null && e.getMessage().trim().length() > 0) {
+				throw new ServiceException(e.getMessage(), e);
+			} else {
+				throw new ServiceException();
+			}
+		}
+	}
+
+	@Override
+	public void add(User user) throws ServiceException {
+		try {
+			userEao.add(user);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (e.getMessage() != null && e.getMessage().trim().length() > 0) {
+				throw new ServiceException(e.getMessage(), e);
+			} else {
+				throw new ServiceException();
+			}
+		}
+
+	}
+
+	@Override
+	public User edit(User user) throws ServiceException {
+		try {
+
+			User userFound = userEao.findById(user.getId());
+
+			if (userFound == null) {
+				throw new UserNotFoundException();
+			}
+
+			user = userEao.edit(user);
 
 			return user;
 
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (e.getMessage() != null && e.getMessage().trim().length() > 0) {
+				throw new ServiceException(e.getMessage(), e);
+			} else {
+				throw new ServiceException();
+			}
+		}
+
+	}
+	
+	public List<User> findList(String username, String names) throws ServiceException{
+		try {
+			
+			return userEao.findList(username, names);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (e.getMessage()!=null && e.getMessage().trim().length()>0) {
@@ -65,5 +119,6 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 	}
+	
 
 }

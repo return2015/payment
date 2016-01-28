@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<f:metadata>
+	<f:viewAction action="#{editUserController.initialize}" />
+</f:metadata>
+
+<h:head>
+	<h:outputStylesheet library="css" name="facesUtil.css" />
+</h:head>
+
+<h:body>
+
+	<div class="title ui-widget-header ui-corner-all">
+		<h:panelGrid style="margin:auto;">
+		EDITAR USUARIO
+		</h:panelGrid>
+
+	</div>
+
+	<div>
+
+		<h:panelGrid style="margin:auto;text-align:center;">
+			<p:messages id="messages"></p:messages>
+		</h:panelGrid>
+
+		<h:form id="form">
+
+			<h:panelGrid columns="3" style="margin:auto;width:100%;"
+				rowClasses="panelgrid_center_row">
+
+
+				<h:panelGrid rowClasses="panelgrid_center_row">
+
+					<p:fieldset legend="DATOS DE USUARIO">
+
+						<h:panelGrid columns="2" rowClasses="panelgrid_center_row">
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Nombres"></p:outputLabel>
+								<p:inputText
+									value="#{editUserController.userSelected.name}"
+									style="width:100px;"></p:inputText>
+
+
+							</h:panelGrid>
+
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Usuario"></p:outputLabel>
+								<p:inputText value="#{editUserController.userSelected.login}"
+									style="width:80px;" required="true"
+									requiredMessage="Debe ingresar usuario"></p:inputText>
+
+								<p:outputLabel value="Clave"></p:outputLabel>
+								<p:inputText value="#{editUserController.userSelected.password}"
+									required="true" requiredMessage="Debe ingresar clave"
+									style="width:80px;"></p:inputText>
+
+								<p:outputLabel value="Activo"></p:outputLabel>
+								<p:selectBooleanCheckbox
+									value="#{editUserController.userSelected.isActive}">
+								</p:selectBooleanCheckbox>
+
+							</h:panelGrid>
+
+						</h:panelGrid>
+
+					</p:fieldset>
+
+					<h:panelGrid style="margin:auto;text-align:center;">
+						<p:commandButton actionListener="#{editUserController.edit}"
+							value="Editar Usuario" update="@form :messages">
+						</p:commandButton>
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+
+			</h:panelGrid>
+
+
+
+		</h:form>
+	</div>
+</h:body>
+
+</html>

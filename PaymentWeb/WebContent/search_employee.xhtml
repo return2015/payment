@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/BasicTemplate.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{searchEmployeeController.initialize}" />
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="content">
+
+
+		<div class="title ui-widget-header ui-corner-all">
+			<h:panelGrid style="margin:auto;">
+		GESTIONAR EMPLEADOS
+		</h:panelGrid>
+
+		</div>
+
+		<h:panelGrid style="margin:auto;text-align:center;">
+			<p:messages id="messages"></p:messages>
+		</h:panelGrid>
+
+		<h:form id="form">
+
+			<h:panelGrid style="margin:auto;">
+				<h:panelGrid columns="3">
+					<p:commandButton icon="ui-icon-plus" value="Agregar"
+						immediate="true" action="add_employee.xhtml?faces-redirect=true">
+					</p:commandButton>
+
+					<p:commandButton id="editButtom" immediate="true"
+						icon="ui-icon-pencil" value="Editar" update=":messages"
+						actionListener="#{searchEmployeeController.edit}"
+						disabled="#{searchEmployeeController.employeeSelected==null}">
+						<p:ajax event="dialogReturn" update=":form:searchTable"
+							listener="#{searchEmployeeController.afterEdit}" />
+					</p:commandButton>
+
+					<p:outputLabel id="employeeId"
+						value="Empleado seleccionado: #{searchEmployeeController.employeeSelected!=null?searchEmployeeController.employeeSelected.id:''}">
+					</p:outputLabel>
+				</h:panelGrid>
+
+
+				<p:dataTable value="#{searchEmployeeController.employees}" var="r"
+					rowKey="#{r.id}" paginator="true" rows="10" id="searchTable"
+					selectionMode="single" style="width:400px;"
+					selection="#{searchEmployeeController.employeeSelected}">
+
+					<p:ajax event="rowSelect"
+						update=":form:employeeId :form:editButtom" />
+					<p:ajax event="rowUnselect"
+						update=":form:employeeId :form:editButtom" />
+
+					<p:column headerText="Id">
+						<h:outputText value="#{r.id}"></h:outputText>
+					</p:column>
+
+					<p:column headerText="Empleado">
+						<h:outputText value="#{r.name}"></h:outputText>
+					</p:column>
+
+					<p:column headerText="Básico">
+						<h:outputText value="#{r.basic}">
+							<f:convertNumber type="currency" locale="es_PE" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Incentivo">
+						<h:outputText value="#{r.incentive}">
+							<f:convertNumber type="currency" locale="es_PE" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Objetivo">
+						<h:outputText value="#{r.objective}">
+							<f:convertNumber type="currency" locale="es_PE" />
+						</h:outputText>
+					</p:column>
+
+
+
+				</p:dataTable>
+			</h:panelGrid>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

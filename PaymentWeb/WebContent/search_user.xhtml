@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/BasicTemplate.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{searchUserController.initialize}" />
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="content">
+
+
+		<div class="title ui-widget-header ui-corner-all">
+			<h:panelGrid style="margin:auto;">
+		GESTIONAR USUARIOS
+		</h:panelGrid>
+
+		</div>
+
+		<h:panelGrid style="margin:auto;text-align:center;">
+			<p:messages id="messages"></p:messages>
+		</h:panelGrid>
+
+		<h:form id="form">
+			<h:panelGrid style="margin:auto;">
+				<h:panelGrid style="margin:auto;">
+
+
+					<h:panelGrid columns="4">
+
+						<p:outputLabel value="Usuario"></p:outputLabel>
+						<p:inputText style="width: 120px;"
+							value="#{searchUserController.username}"></p:inputText>
+
+						<p:outputLabel value="Nombres"></p:outputLabel>
+						<p:inputText style="width: 230px;"
+							value="#{searchUserController.names}"></p:inputText>
+
+					</h:panelGrid>
+					<h:panelGrid style="margin:auto;text-align:center;">
+						<p:commandButton icon="ui-icon-search"
+							actionListener="#{searchUserController.search}" value="Buscar"
+							process="@form"
+							update=":form:searchTable :messages :form:recruiterId :form:editButtom">
+						</p:commandButton>
+					</h:panelGrid>
+				</h:panelGrid>
+
+				<h:panelGrid columns="3">
+					<p:commandButton icon="ui-icon-plus" value="Agregar"
+						immediate="true" action="add_user.xhtml?faces-redirect=true">
+					</p:commandButton>
+
+					<p:commandButton id="editButtom" immediate="true"
+						icon="ui-icon-pencil" value="Editar" update=":messages"
+						actionListener="#{searchUserController.edit}"
+						disabled="#{searchUserController.userSelected==null}">
+						<p:ajax event="dialogReturn" update=":form:searchTable"
+							listener="#{searchUserController.afterEdit}" />
+					</p:commandButton>
+
+					<p:outputLabel id="recruiterId"
+						value="Usuario seleccionado: #{searchUserController.userSelected!=null?searchUserController.userSelected.id:''}">
+					</p:outputLabel>
+				</h:panelGrid>
+
+
+				<p:dataTable value="#{searchUserController.users}" var="r"
+					rowKey="#{r.id}" paginator="true" rows="10" id="searchTable"
+					selectionMode="single" style="width:400px;"
+					selection="#{searchUserController.userSelected}">
+
+					<p:ajax event="rowSelect"
+						update=":form:recruiterId :form:editButtom" />
+					<p:ajax event="rowUnselect"
+						update=":form:recruiterId :form:editButtom" />
+
+					<p:column headerText="Id">
+						<h:outputText value="#{r.id}"></h:outputText>
+					</p:column>
+
+					<p:column headerText="Nombres">
+						<h:outputText value="#{r.name}"></h:outputText>
+					</p:column>
+
+					<p:column headerText="Usuario">
+						<h:outputText value="#{r.login}"></h:outputText>
+					</p:column>
+
+					<p:column headerText="Activo">
+						<h:outputText value="#{r.isActive}"></h:outputText>
+					</p:column>
+
+
+				</p:dataTable>
+			</h:panelGrid>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

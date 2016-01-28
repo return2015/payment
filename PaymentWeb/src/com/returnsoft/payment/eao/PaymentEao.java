@@ -17,6 +17,18 @@ public class PaymentEao {
 	@PersistenceContext
 	private EntityManager em;
 	
+	public void delete(Payment payment) throws EaoException {
+		try {
+			
+			em.remove(payment);
+			em.flush();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new EaoException(e.getMessage());
+		}
+	}
+	
 	public void add(Payment payment) throws EaoException {
 		try {
 			

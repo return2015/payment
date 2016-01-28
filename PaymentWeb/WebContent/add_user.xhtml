@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/BasicTemplate.xhtml">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{addUserController.initialize}" />
+		</f:metadata>
+	</ui:define>
+
+
+	<ui:define name="content">
+		<div class="title ui-widget-header ui-corner-all">
+			<h:panelGrid style="margin:auto;">
+		AGREGAR USUARIO
+		</h:panelGrid>
+
+		</div>
+
+		<h:panelGrid style="margin:auto;text-align:center;">
+			<p:messages id="messages"></p:messages>
+		</h:panelGrid>
+
+		<h:form id="form">
+
+
+			<h:panelGrid columns="3" style="margin:auto;"
+				rowClasses="panelgrid_center_row">
+
+
+				<h:panelGrid>
+
+					<p:fieldset legend="DATOS DE USUARIO">
+
+						<h:panelGrid columns="2" rowClasses="panelgrid_center_row">
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Nombres"></p:outputLabel>
+								<p:inputText value="#{addUserController.userSelected.name}"
+									style="width:100px;"></p:inputText>
+								
+							</h:panelGrid>
+
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Usuario"></p:outputLabel>
+								<p:inputText value="#{addUserController.userSelected.login}"
+									style="width:80px;" required="true"
+									requiredMessage="Debe ingresar usuario"></p:inputText>
+
+								<p:outputLabel value="Clave"></p:outputLabel>
+								<p:inputText value="#{addUserController.userSelected.password}"
+									required="true" requiredMessage="Debe ingresar clave"
+									style="width:80px;"></p:inputText>
+
+							</h:panelGrid>
+
+
+						</h:panelGrid>
+
+
+					</p:fieldset>
+
+					<h:panelGrid style="margin:auto;text-align:center;">
+						<p:commandButton actionListener="#{addUserController.add}"
+							value="Agregar Usuario" update="@form :messages">
+						</p:commandButton>
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+			</h:panelGrid>
+
+
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

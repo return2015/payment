@@ -25,17 +25,14 @@ public class Objective implements Serializable{
 	@Column(name = "obj_id")
 	private Integer id;
 	
-	@Column(name = "obj_percent_start")
-	private Double percentStart;
+	@Column(name = "obj_percent")
+	private Double percent;
 	
-	@Column(name = "obj_percent_end")
-	private Double percentEnd;
+	@Column(name = "obj_percent_commission")
+	private Double percentCommission;
 	
-	@Column(name = "obj_commission")
-	private Double commission;
-	
-	@Column(name = "obj_incentive")
-	private Double incentive;
+	@Column(name = "obj_percent_incentive")
+	private Double percentIncentive;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="obj_emp_id")
@@ -60,39 +57,30 @@ public class Objective implements Serializable{
 		this.employee = employee;
 	}
 
-	public Double getPercentStart() {
-		return percentStart;
+	public Double getPercent() {
+		return percent;
 	}
 
-	public void setPercentStart(Double percentStart) {
-		this.percentStart = percentStart;
+	public void setPercent(Double percent) {
+		this.percent = percent;
 	}
 
-	public Double getPercentEnd() {
-		return percentEnd;
+	public Double getPercentIncentive() {
+		return percentIncentive;
 	}
 
-	public void setPercentEnd(Double percentEnd) {
-		this.percentEnd = percentEnd;
+	public void setPercentIncentive(Double percentIncentive) {
+		this.percentIncentive = percentIncentive;
 	}
 
-
-
-	public Double getCommission() {
-		return commission;
+	public Double getPercentCommission() {
+		return percentCommission;
 	}
 
-	public void setCommission(Double commission) {
-		this.commission = commission;
+	public void setPercentCommission(Double percentCommission) {
+		this.percentCommission = percentCommission;
 	}
 
-	public Double getIncentive() {
-		return incentive;
-	}
-
-	public void setIncentive(Double incentive) {
-		this.incentive = incentive;
-	}
 	
 	
 	

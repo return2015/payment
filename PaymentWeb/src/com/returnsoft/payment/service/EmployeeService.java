@@ -11,5 +11,9 @@ public interface EmployeeService {
 	
 	public Employee findById(Integer employeeId)
 			throws ServiceException;
+	
+	public void add(Employee employee) throws ServiceException;
+	
+	public Employee edit(Employee employee) throws ServiceException;
 
 }

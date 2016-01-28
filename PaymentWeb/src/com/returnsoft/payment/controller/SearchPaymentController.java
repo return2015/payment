@@ -153,7 +153,7 @@ public class SearchPaymentController implements Serializable {
 				if (payment.getId().equals(paymentReturn.getId())) {
 					payments.set(i, paymentReturn);
 					paymentSelected = paymentReturn;
-					//break;
+					break;
 				}
 				i++;
 			}
@@ -164,6 +164,33 @@ public class SearchPaymentController implements Serializable {
 			//return null;
 		}
 		
+	}
+	
+	
+	public void delete(){
+		try {
+			
+			paymentService.delete(paymentSelected);
+			
+			payments.remove(paymentSelected);
+			
+			/*int i = 0;
+			for (Payment payment : payments) {
+				//Payment payement = payments.get(i);
+				if (payment.getId().equals(paymentSelected.getId())) {
+					payments.set(i, paymentReturn);
+					paymentSelected = paymentReturn;
+					break;
+				}
+				i++;
+			}*/
+			
+			facesUtil.sendConfirmMessage("Se eliminó satisfactoriamente.");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			facesUtil.sendErrorMessage(e.getMessage());
+		}
 	}
 	
 	

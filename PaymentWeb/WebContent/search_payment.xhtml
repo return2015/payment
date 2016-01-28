@@ -54,7 +54,7 @@
 					<p:commandButton icon="ui-icon-search"
 						actionListener="#{searchPaymentController.search}" value="Buscar"
 						process="@form"
-						update=":form:searchTable :messages :form:paymentId :form:editButtom">
+						update=":form:searchTable :messages :form:paymentId :form:deleteButtom">
 					</p:commandButton>
 				</h:panelGrid>
 			</h:panelGrid>
@@ -64,16 +64,14 @@
 					immediate="true" action="add_payment.xhtml?faces-redirect=true">
 				</p:commandButton>
 
-				<p:commandButton id="editButtom" immediate="true"
-					icon="ui-icon-pencil" value="Editar" update=":messages"
-					actionListener="#{searchPaymentController.edit}"
+				<p:commandButton id="deleteButtom" immediate="true"
+					icon="ui-icon-trash" value="Eliminar" update=":form:searchTable :messages"
+					actionListener="#{searchPaymentController.delete}"
 					disabled="#{searchPaymentController.paymentSelected==null}">
-					<p:ajax event="dialogReturn" update=":form:searchTable"
-						listener="#{searchPaymentController.afterEdit}" />
 				</p:commandButton>
 
 				<p:outputLabel id="paymentId"
-					value="Reclutador seleccionado: #{searchPaymentController.paymentSelected!=null?searchPaymentController.paymentSelected.id:''}">
+					value="Pago seleccionado: #{searchPaymentController.paymentSelected!=null?searchPaymentController.paymentSelected.id:''}">
 				</p:outputLabel>
 			</h:panelGrid>
 
@@ -83,29 +81,83 @@
 				selectionMode="single"
 				selection="#{searchPaymentController.paymentSelected}">
 
-				<p:ajax event="rowSelect" update=":form:paymentId :form:editButtom" />
+				<p:ajax event="rowSelect" update=":form:paymentId :form:deleteButtom" />
 				<p:ajax event="rowUnselect"
-					update=":form:paymentId :form:editButtom" />
-
-				<p:column headerText="Id">
-					<h:outputText value="#{r.id}"></h:outputText>
-				</p:column>
-
-				<p:column headerText="Porcentaje inicial">
-					<h:outputText value="#{r.percentStart}"></h:outputText>
-				</p:column>
-
-				<p:column headerText="Porcentaje final">
-					<h:outputText value="#{r.percentEnd}"></h:outputText>
-				</p:column>
-				
-				<p:column headerText="Fecha pago">
+					update=":form:paymentId :form:deleteButtom" />
+					
+					<p:column headerText="Fecha pago">
 					<h:outputText value="#{r.date}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
-
-
+				<p:column headerText="Empleado">
+					<h:outputText value="#{r.employee.name}"></h:outputText>
+				</p:column>
+				
+				<p:column headerText="Básico">
+					<h:outputText value="#{r.basic}">
+					<f:convertNumber type="currency" locale="es_PE" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Incentivo">
+					<h:outputText value="#{r.incentive}">
+					<f:convertNumber type="currency" locale="es_PE" />
+					</h:outputText>
+				</p:column>
+				
+				
+				<p:column headerText="Ventas">
+					<h:outputText value="#{r.sale}">
+					<f:convertNumber type="currency" locale="es_PE" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Objetivo">
+					<h:outputText value="#{r.percent}">
+					<f:convertNumber type="percent"  />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="% Comisión">
+					<h:outputText value="#{r.percentCommision}">
+					<f:convertNumber type="percent"  />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="% Incentivo">
+					<h:outputText value="#{r.percentIncentive}">
+					<f:convertNumber type="percent"  />
+					</h:outputText>
+				</p:column>
+				
+				
+				
+				<p:column headerText="Incentivo Total">
+					<h:outputText value="#{r.incentiveTotal}">
+					<f:convertNumber type="currency" locale="es_PE" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Comisión Total">
+					<h:outputText value="#{r.commissionTotal}">
+					<f:convertNumber type="currency" locale="es_PE" />
+					</h:outputText>
+				</p:column>
+				
+				
+				<p:column headerText="Pago Total">
+					<h:outputText value="#{r.total}">
+					<f:convertNumber type="currency" locale="es_PE" />
+					</h:outputText>
+				</p:column>
+				
+				
+				<p:column headerText="Fecha creación">
+					<h:outputText value="#{r.createdAt}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+					</h:outputText>
+				</p:column>
 
 
 			</p:dataTable>

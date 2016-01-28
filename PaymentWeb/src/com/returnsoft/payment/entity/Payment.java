@@ -30,11 +30,9 @@ public class Payment implements Serializable{
 	@Column(name = "pay_id")
 	private Long id;
 	
-	@Column(name = "pay_obj_percent_start")
-	private Double percentStart;
+	@Column(name = "pay_obj_percent")
+	private Double percent;
 	
-	@Column(name = "pay_obj_percent_end")
-	private Double percentEnd;
 	
 	@Column(name = "pay_obj_commision")
 	private Double percentCommision;
@@ -49,9 +47,13 @@ public class Payment implements Serializable{
 	private BigDecimal objective;
 	
 	
+	@Column(name = "pay_commision_total")
+	private BigDecimal commissionTotal;
 	
-	@Column(name = "pay_commision")
-	private BigDecimal commission;
+	@Column(name = "pay_incentive_total")
+	private BigDecimal incentiveTotal;
+	
+	
 	
 	@Column(name = "pay_incentive")
 	private BigDecimal incentive;
@@ -70,6 +72,15 @@ public class Payment implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="pay_emp_id")
 	private Employee employee;
+	
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="pay_created_at")
+	private Date createdAt;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="pay_created_by")
+	private User createdBy;
 
 	
 
@@ -84,20 +95,13 @@ public class Payment implements Serializable{
 	
 
 
-	public Double getPercentStart() {
-		return percentStart;
+
+	public Double getPercent() {
+		return percent;
 	}
 
-	public void setPercentStart(Double percentStart) {
-		this.percentStart = percentStart;
-	}
-
-	public Double getPercentEnd() {
-		return percentEnd;
-	}
-
-	public void setPercentEnd(Double percentEnd) {
-		this.percentEnd = percentEnd;
+	public void setPercent(Double percent) {
+		this.percent = percent;
 	}
 
 	public Double getPercentCommision() {
@@ -134,13 +138,7 @@ public class Payment implements Serializable{
 
 	
 
-	public BigDecimal getCommission() {
-		return commission;
-	}
-
-	public void setCommission(BigDecimal commission) {
-		this.commission = commission;
-	}
+	
 
 	public BigDecimal getIncentive() {
 		return incentive;
@@ -180,6 +178,38 @@ public class Payment implements Serializable{
 
 	public void setTotal(BigDecimal total) {
 		this.total = total;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public BigDecimal getCommissionTotal() {
+		return commissionTotal;
+	}
+
+	public void setCommissionTotal(BigDecimal commissionTotal) {
+		this.commissionTotal = commissionTotal;
+	}
+
+	public BigDecimal getIncentiveTotal() {
+		return incentiveTotal;
+	}
+
+	public void setIncentiveTotal(BigDecimal incentiveTotal) {
+		this.incentiveTotal = incentiveTotal;
 	}
 	
 	

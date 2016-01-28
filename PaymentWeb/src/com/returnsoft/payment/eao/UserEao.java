@@ -134,8 +134,6 @@ public class UserEao{
 			throw new EaoException(e.getMessage());
 		}
 	}
-
-
-
+	
 	
 }

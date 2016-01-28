@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,7 +39,7 @@ public class Employee implements Serializable {
 	@Column(name = "emp_incentive")
 	private BigDecimal incentive;
 	
-	@OneToMany(mappedBy="employee",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="employee",fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<Objective> objectives;
 
 	public Integer getId() {

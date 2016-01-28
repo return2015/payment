@@ -25,7 +25,13 @@
 			<p:menuitem value="Inicio" outcome="/home.xhtml" icon="ui-icon-star" />
 			
 			<p:menuitem value="Pagos" outcome="/search_payment.xhtml"
-				rendered="#{sessionBean.user!=null}" icon="ui-icon-star" />	
+				rendered="#{sessionBean.user!=null}" icon="ui-icon-star" />
+				
+			<p:menuitem value="Empleados" outcome="/search_employee.xhtml"
+				rendered="#{sessionBean.user!=null}" icon="ui-icon-star" />
+				
+			<p:menuitem value="Usuarios" outcome="/search_user.xhtml"
+				rendered="#{sessionBean.user!=null}" icon="ui-icon-star" />					
 			
 				
 			<p:menuitem value="Salir" action="#{loginController.doLogout}"

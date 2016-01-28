@@ -15,6 +15,34 @@ public class EmployeeEao {
 	
 	@PersistenceContext
 	private EntityManager em;
+	public Employee edit(Employee employee) throws EaoException {
+		try {
+			
+			employee = em.merge(employee);
+			em.flush();
+			
+			return employee;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new EaoException(e.getMessage());
+		}
+
+	}
+	
+	
+	public void add(Employee employee) throws EaoException {
+		try {
+			
+			em.persist(employee);
+			em.flush();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new EaoException(e.getMessage());
+		}
+
+	}
 	
 	
 	public Employee findById(Integer employeeId) throws EaoException {

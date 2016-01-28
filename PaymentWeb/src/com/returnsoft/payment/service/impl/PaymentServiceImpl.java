@@ -11,6 +11,7 @@ import com.returnsoft.payment.entity.Payment;
 import com.returnsoft.payment.exception.PaymentNotFoundException;
 import com.returnsoft.payment.exception.ServiceException;
 import com.returnsoft.payment.service.PaymentService;
+import com.returnsoft.util.FacesUtil;
 @Stateless
 public class PaymentServiceImpl implements PaymentService {
 
@@ -49,6 +50,30 @@ public class PaymentServiceImpl implements PaymentService {
 			payment = paymentEao.edit(payment);
 
 			return payment;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (e.getMessage() != null && e.getMessage().trim().length() > 0) {
+				throw new ServiceException(e.getMessage(), e);
+			} else {
+				throw new ServiceException();
+			}
+		}
+
+	}
+	@Override
+	public void delete(Payment payment) throws ServiceException {
+		try {
+
+			Payment paymentFound = paymentEao.findById(payment.getId());
+
+			if (paymentFound == null) {
+				throw new PaymentNotFoundException();
+			}
+
+			paymentEao.delete(paymentFound);
+			
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

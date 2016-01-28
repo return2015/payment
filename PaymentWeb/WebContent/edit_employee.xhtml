@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+	<f:viewAction action="#{editEmployeeController.initialize}" />
+</f:metadata>
+
+<h:head>
+	<h:outputStylesheet library="css" name="facesUtil.css" />
+</h:head>
+
+<h:body>
+
+	<div class="title ui-widget-header ui-corner-all">
+		<h:panelGrid style="margin:auto;">
+		EDITAR EMPLEADO
+		</h:panelGrid>
+
+	</div>
+
+	<h:panelGrid style="margin:auto;text-align:center;">
+		<p:messages id="messages"></p:messages>
+	</h:panelGrid>
+
+	<h:form id="form">
+		<h:panelGrid style="margin:auto;">
+
+			<h:panelGrid columns="2" rowClasses="panelgrid_center_row">
+
+				<h:panelGrid>
+
+					<h:panelGrid columns="2">
+
+						<p:outputLabel value="Nombre"></p:outputLabel>
+						<p:inputText id="name" required="true"
+							requiredMessage="Ingrese Nombre"
+							value="#{editEmployeeController.employeeSelected.name}"></p:inputText>
+
+						<p:outputLabel value="Básico"></p:outputLabel>
+						<p:spinner id="basic" required="true" size="20"
+							requiredMessage="Ingrese Básico" prefix="S/." min="0"
+							stepFactor="0.25"
+							value="#{editEmployeeController.employeeSelected.basic}">
+						</p:spinner>
+
+						<p:outputLabel value="Incentivo"></p:outputLabel>
+						<p:spinner id="incentive" required="true" size="20" prefix="S/."
+							min="0" stepFactor="0.25" requiredMessage="Ingrese Incentivo"
+							value="#{editEmployeeController.employeeSelected.incentive}"></p:spinner>
+
+						<p:outputLabel value="Objetivo"></p:outputLabel>
+						<p:spinner id="objective" required="true"
+							requiredMessage="Ingrese Objetivo" size="20" prefix="S/." min="0"
+							stepFactor="0.25"
+							value="#{editEmployeeController.employeeSelected.objective}"></p:spinner>
+
+					</h:panelGrid>
+					<h:panelGrid style="margin:auto;text-align:center;">
+						<p:commandButton actionListener="#{editEmployeeController.edit}"
+							process="@this :form:name :form:incentive :form:basic :form:objective"
+							value="Editar Empleado" update="@form :messages">
+						</p:commandButton>
+					</h:panelGrid>
+
+
+
+				</h:panelGrid>
+
+				<h:panelGroup>
+
+					<p:fieldset legend="OBJETIVOS">
+
+
+
+						<h:panelGrid>
+
+							<h:panelGrid columns="2">
+
+								<p:outputLabel value="% Objetivo"></p:outputLabel>
+								<p:spinner id="percent" max="1000" min="0" stepFactor="0.25"
+									maxlength="10" suffix="%" size="10" required="true"
+									requiredMessage="Ingrese Objetivo"
+									value="#{editEmployeeController.percent}">
+								</p:spinner>
+
+								<p:outputLabel value="% Comisión"></p:outputLabel>
+								<p:spinner id="percentCommission" suffix="%" min="0" size="10"
+									maxlength="10" max="1000" stepFactor="0.25" required="true"
+									requiredMessage="Ingrese Comisión"
+									value="#{editEmployeeController.percentCommission}"></p:spinner>
+
+								<p:outputLabel value="% Incentivo"></p:outputLabel>
+								<p:spinner id="percentIncentive" min="0" size="10" max="1000"
+									stepFactor="0.25" required="true" suffix="%"
+									requiredMessage="Ingrese Incentivo"
+									value="#{editEmployeeController.percentIncentive}"></p:spinner>
+
+								<h:panelGrid style="margin:auto;text-align:center;">
+									<p:commandButton
+										process="@this :form:percent :form:percentCommission :form:percentIncentive"
+										actionListener="#{editEmployeeController.addObjective}"
+										value="Agregar Objetivo"
+										update=":form:objectivesTable  :form:percent :form:percentCommission :form:percentIncentive :messages">
+									</p:commandButton>
+								</h:panelGrid>
+
+							</h:panelGrid>
+
+							<p:dataTable id="objectivesTable" style="width:300px;"
+								value="#{editEmployeeController.employeeSelected.objectives}"
+								var="u">
+
+								<p:column headerText="Objetivo">
+									<h:outputText value="#{u.percent}">
+										<f:convertNumber type="percent" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="% Comisión">
+									<h:outputText value="#{u.percentCommission}">
+										<f:convertNumber type="percent" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="% Incentivo">
+									<h:outputText value="#{u.percentIncentive}">
+										<f:convertNumber type="percent" />
+									</h:outputText>
+								</p:column>
+
+								<p:column>
+									<p:commandButton process=":form:objectivesTable"
+										update=":form:objectivesTable :messages" value="Eliminar"
+										actionListener="#{editEmployeeController.deleteObjective(u)}">
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+
+						</h:panelGrid>
+
+
+
+
+
+					</p:fieldset>
+
+				</h:panelGroup>
+
+
+
+			</h:panelGrid>
+
+
+
+		</h:panelGrid>
+	</h:form>
+</h:body>
+
+</html>

@@ -10,6 +10,8 @@ public interface PaymentService {
 	
 	public void add(Payment payment) throws ServiceException;
 	
+	public void delete(Payment payment) throws ServiceException;
+	
 	public Payment edit(Payment payment) throws ServiceException;
 	
 	public List<Payment> findList(Integer employeeId, Date date) throws ServiceException;
