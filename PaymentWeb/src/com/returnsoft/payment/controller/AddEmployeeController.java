@@ -75,92 +75,58 @@ public class AddEmployeeController implements Serializable {
 				throw new UserLoggedNotFoundException();
 			}
 
-			//if (recruiterSelected != null && recruiterSelected.length() > 0) {
+			// VALIDA SI YA EXISTE
+			Boolean exist = false;
+			for (Objective objective : employeeSelected.getObjectives()) {
+				if (objective.getPercent().equals(percent / 100)) {
+					exist = true;
+				}
+			}
 
-				//Integer recruiterId = Integer.parseInt(recruiterSelected);
+			if (exist) {
+				throw new Exception("El objetivo ya esta agregado.");
 
-				//if (amount != null && amount.length() > 0) {
-					
-					//Integer amountInt = Integer.parseInt(amount);
-					
-					//if (amountInt>0) {
-						// VALIDA SI YA EXISTE
-						Boolean exist = false;
-						for (Objective objective : employeeSelected.getObjectives()) {
-							if (objective.getPercent().equals(percent/100)) {
-								exist = true;
-							}
-						}
+			}
 
-						if (exist) {
-							facesUtil.sendErrorMessage("El objetivo ya esta agregado.");
-						} else {
-							//User user = userService.findById(Integer.parseInt(recruiterSelected));
-							Objective ru = new Objective();
-							ru.setPercent(percent/100);
-							ru.setPercentCommission(percentCommission/100);
-							ru.setPercentIncentive(percentIncentive/100);
-							ru.setEmployee(employeeSelected);
-							
-							//ru.setRequirement(requirementSelected);
-							//ru.setRequirementId(requirementSelected.getId());
-							//ru.setUserId(user.getId());
-							//ru.setAmount(Integer.parseInt(amount));
-							
-							employeeSelected.getObjectives().add(ru);
-							percent = null;
-							percentCommission=null;
-							percentIncentive=null;
-							
-							/*Integer total =0;
-							for (RequirementUser requirementUser : requirementSelected.getUsers()) {
-								total+=requirementUser.getAmount();
-							}
-							requirementSelected.setAmount(total);*/
-							//totalAmount=total+"";
-						}
-					/*}else{
-						facesUtil.sendErrorMessage("La cantidad debe ser mayor a cero.");	
-					}*/
-					
-					
+			Objective ru = new Objective();
 
-				/*} else {
-					facesUtil.sendErrorMessage("Debe ingresar cantidad.");
-				}*/
+			System.out.println("percent" + percent);
+			System.out.println(percent / 100);
+			ru.setPercent(percent / 100);
+			ru.setPercentIncentive(percentIncentive / 100);
+			ru.setEmployee(employeeSelected);
 
-			/*} else {
-				facesUtil.sendErrorMessage("Debe seleccionar reclutador.");
-			}*/
+			employeeSelected.getObjectives().add(ru);
+			percent = null;
+			percentIncentive = null;
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			facesUtil.sendErrorMessage(e.getMessage());
 		}
 	}
-	
-	public void deleteObjective(Objective ru){
+
+	public void deleteObjective(Objective ru) {
 		try {
 			System.out.println("ingreso a deleteRecruiter");
-			
+
 			if (sessionBean == null || sessionBean.getUser() == null || sessionBean.getUser().getId() == null) {
 				throw new UserLoggedNotFoundException();
 			}
-			
-			//System.out.println(ru.getUser().getId());
-			if (ru!=null) {
+
+			// System.out.println(ru.getUser().getId());
+			if (ru != null) {
 				for (Objective objective : employeeSelected.getObjectives()) {
 					if (objective.getId().equals(ru.getId())) {
 						employeeSelected.getObjectives().remove(objective);
 						break;
 					}
 				}
-				
-				
-			}else{
-				facesUtil.sendErrorMessage("No se encontró reclutador.");	
+
+			} else {
+				facesUtil.sendErrorMessage("No se encontró reclutador.");
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			facesUtil.sendErrorMessage(e.getMessage());
@@ -188,7 +154,7 @@ public class AddEmployeeController implements Serializable {
 			 * requirementSelected.setRecruiter(recruiter); }
 			 */
 
-			
+			employeeSelected.setPercentCommission(percentCommission/100);
 			employeeService.add(employeeSelected);
 			
 			/*monthSelected="";
@@ -198,6 +164,7 @@ public class AddEmployeeController implements Serializable {
 			subAreas=new ArrayList<SelectItem>();
 			totalAmount="";*/
 			employeeSelected = new Employee();
+			percentCommission=null;
 			employeeSelected.setObjectives(new ArrayList<Objective>());
 			
 					

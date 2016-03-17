@@ -28,8 +28,6 @@ public class Objective implements Serializable{
 	@Column(name = "obj_percent")
 	private Double percent;
 	
-	@Column(name = "obj_percent_commission")
-	private Double percentCommission;
 	
 	@Column(name = "obj_percent_incentive")
 	private Double percentIncentive;
@@ -71,14 +69,6 @@ public class Objective implements Serializable{
 
 	public void setPercentIncentive(Double percentIncentive) {
 		this.percentIncentive = percentIncentive;
-	}
-
-	public Double getPercentCommission() {
-		return percentCommission;
-	}
-
-	public void setPercentCommission(Double percentCommission) {
-		this.percentCommission = percentCommission;
 	}
 
 	

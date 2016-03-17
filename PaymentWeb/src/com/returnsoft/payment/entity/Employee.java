@@ -39,6 +39,9 @@ public class Employee implements Serializable {
 	@Column(name = "emp_incentive")
 	private BigDecimal incentive;
 	
+	@Column(name = "emp_percent_commission")
+	private Double percentCommission;
+	
 	@OneToMany(mappedBy="employee",fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<Objective> objectives;
 
@@ -88,6 +91,14 @@ public class Employee implements Serializable {
 
 	public void setIncentive(BigDecimal incentive) {
 		this.incentive = incentive;
+	}
+
+	public Double getPercentCommission() {
+		return percentCommission;
+	}
+
+	public void setPercentCommission(Double percentCommission) {
+		this.percentCommission = percentCommission;
 	}
 	
 	

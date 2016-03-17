@@ -50,7 +50,7 @@
 							<p:ajax immediate="true"
 								listener="#{addPaymentController.onChangeEmployee}"
 								update=":form:objectivesTable :form:basic :form:objective :form:incentive_total
-								:form:objectiveId :form:commission :form:incentive :form:total 
+								:form:objectiveId :form:commission :form:incentive :form:percentCommission :form:total 
 								:form:paymentDate :form:sales
 								:messages"></p:ajax>
 						</p:selectOneMenu>
@@ -60,22 +60,27 @@
 						<p:outputLabel value="Objetivo"></p:outputLabel>
 						<p:outputLabel id="objective"
 							value="#{addPaymentController.paymentSelected.employee.objective}">
-							<f:convertNumber type="currency" locale="es_PE" />
+							<f:convertNumber type="currency" locale="en" currencySymbol="S/." maxFractionDigits="0"/>
 						</p:outputLabel>
 
-						<p:outputLabel value="Salario Básico"></p:outputLabel>
+						<p:outputLabel value="Básico"></p:outputLabel>
 						<p:outputLabel id="basic"
 							value="#{addPaymentController.paymentSelected.employee.basic}">
-							<f:convertNumber type="currency" locale="es_PE" />
+							<f:convertNumber type="currency" locale="en" currencySymbol="S/." maxFractionDigits="0"/>
 						</p:outputLabel>
 
 						<p:outputLabel value="Incentivo"></p:outputLabel>
 						<p:outputLabel id="incentive_total"
 							value="#{addPaymentController.paymentSelected.employee.incentive}">
-							<f:convertNumber type="currency" locale="es_PE" />
+							<f:convertNumber type="currency" locale="en" currencySymbol="S/." maxFractionDigits="0"/>
 						</p:outputLabel>
 
 
+						<p:outputLabel value="Comisión"></p:outputLabel>
+						<p:outputLabel id="percentCommission"
+							value="#{addPaymentController.paymentSelected.employee.percentCommission}">
+							<f:convertNumber type="percent" locale="en" maxFractionDigits="2"/>
+						</p:outputLabel>
 
 
 
@@ -87,13 +92,6 @@
 
 						<p:column headerText="Objetivo">
 							<h:outputText value="#{o.percent}">
-								<f:convertNumber type="percent" minFractionDigits="2"
-									maxFractionDigits="2" />
-							</h:outputText>
-						</p:column>
-
-						<p:column headerText="% comisión">
-							<h:outputText value="#{o.percentCommission}">
 								<f:convertNumber type="percent" minFractionDigits="2"
 									maxFractionDigits="2" />
 							</h:outputText>
@@ -138,20 +136,20 @@
 
 					<p:outputLabel value="Comisión"></p:outputLabel>
 					<p:outputLabel id="commission"
-						value="#{addPaymentController.paymentSelected.commissionTotal}">
-						<f:convertNumber type="currency" locale="es_PE" />
+						value="#{addPaymentController.paymentSelected.commission}">
+						<f:convertNumber type="currency" locale="en" currencySymbol="S/." />
 					</p:outputLabel>
 
 					<p:outputLabel value="Incentivo"></p:outputLabel>
 					<p:outputLabel id="incentive"
-						value="#{addPaymentController.paymentSelected.incentiveTotal}">
-						<f:convertNumber type="currency" locale="es_PE" />
+						value="#{addPaymentController.paymentSelected.incentive}">
+						<f:convertNumber type="currency" locale="en" currencySymbol="S/." />
 					</p:outputLabel>
 
 					<p:outputLabel value="Total"></p:outputLabel>
 					<p:outputLabel id="total"
 						value="#{addPaymentController.paymentSelected.total}">
-						<f:convertNumber type="currency" locale="es_PE" />
+						<f:convertNumber type="currency" locale="en" currencySymbol="S/." />
 					</p:outputLabel>
 
 

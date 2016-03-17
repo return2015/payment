@@ -11,7 +11,6 @@ import com.returnsoft.payment.entity.Payment;
 import com.returnsoft.payment.exception.PaymentNotFoundException;
 import com.returnsoft.payment.exception.ServiceException;
 import com.returnsoft.payment.service.PaymentService;
-import com.returnsoft.util.FacesUtil;
 @Stateless
 public class PaymentServiceImpl implements PaymentService {
 

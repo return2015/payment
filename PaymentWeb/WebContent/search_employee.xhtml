@@ -54,7 +54,7 @@
 
 				<p:dataTable value="#{searchEmployeeController.employees}" var="r"
 					rowKey="#{r.id}" paginator="true" rows="10" id="searchTable"
-					selectionMode="single" style="width:400px;"
+					selectionMode="single" style="width:500px;"
 					selection="#{searchEmployeeController.employeeSelected}">
 
 					<p:ajax event="rowSelect"
@@ -72,19 +72,25 @@
 
 					<p:column headerText="Básico">
 						<h:outputText value="#{r.basic}">
-							<f:convertNumber type="currency" locale="es_PE" />
+						<f:convertNumber currencySymbol="S/." type="currency" locale="en" maxFractionDigits="0" />
 						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Incentivo">
 						<h:outputText value="#{r.incentive}">
-							<f:convertNumber type="currency" locale="es_PE" />
+						<f:convertNumber currencySymbol="S/." type="currency" locale="en" maxFractionDigits="0" />
 						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Objetivo">
 						<h:outputText value="#{r.objective}">
-							<f:convertNumber type="currency" locale="es_PE" />
+						<f:convertNumber currencySymbol="S/." type="currency" locale="en" maxFractionDigits="0" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Comisión">
+						<h:outputText value="#{r.percentCommission}">
+							<f:convertNumber type="percent" maxFractionDigits="2" locale="en" />
 						</h:outputText>
 					</p:column>
 

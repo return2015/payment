@@ -43,27 +43,36 @@
 							value="#{editEmployeeController.employeeSelected.name}"></p:inputText>
 
 						<p:outputLabel value="Básico"></p:outputLabel>
-						<p:spinner id="basic" required="true" size="20"
-							requiredMessage="Ingrese Básico" prefix="S/." min="0"
-							stepFactor="0.25"
+						<p:spinner id="basic" required="true"
+							requiredMessage="Ingrese Básico" stepFactor="1" min="0" prefix="S/."
 							value="#{editEmployeeController.employeeSelected.basic}">
 						</p:spinner>
 
 						<p:outputLabel value="Incentivo"></p:outputLabel>
-						<p:spinner id="incentive" required="true" size="20" prefix="S/."
-							min="0" stepFactor="0.25" requiredMessage="Ingrese Incentivo"
-							value="#{editEmployeeController.employeeSelected.incentive}"></p:spinner>
+						<p:spinner id="incentive" required="true"
+							requiredMessage="Ingrese Incentivo" stepFactor="1" min="0" prefix="S/."
+							value="#{editEmployeeController.employeeSelected.incentive}">
+
+						</p:spinner>
 
 						<p:outputLabel value="Objetivo"></p:outputLabel>
 						<p:spinner id="objective" required="true"
-							requiredMessage="Ingrese Objetivo" size="20" prefix="S/." min="0"
-							stepFactor="0.25"
-							value="#{editEmployeeController.employeeSelected.objective}"></p:spinner>
+							requiredMessage="Ingrese Objetivo" stepFactor="1" min="0" prefix="S/."
+							value="#{editEmployeeController.employeeSelected.objective}">
+						</p:spinner>
+
+
+						<p:outputLabel value="Comisión"></p:outputLabel>
+						<p:spinner id="percentCommission" suffix="%" min="0" 
+							  stepFactor="0.25" required="true"
+							requiredMessage="Ingrese Comisión"
+							value="#{editEmployeeController.percentCommission}">
+							</p:spinner>
 
 					</h:panelGrid>
 					<h:panelGrid style="margin:auto;text-align:center;">
 						<p:commandButton actionListener="#{editEmployeeController.edit}"
-							process="@this :form:name :form:incentive :form:basic :form:objective"
+							process="@this :form:name :form:incentive :form:basic :form:objective :form:percentCommission"
 							value="Editar Empleado" update="@form :messages">
 						</p:commandButton>
 					</h:panelGrid>
@@ -83,20 +92,16 @@
 							<h:panelGrid columns="2">
 
 								<p:outputLabel value="% Objetivo"></p:outputLabel>
-								<p:spinner id="percent" max="1000" min="0" stepFactor="0.25"
-									maxlength="10" suffix="%" size="10" required="true"
+								<p:spinner id="percent" min="0" stepFactor="0.25"
+									maxlength="10" suffix="%" required="true"
 									requiredMessage="Ingrese Objetivo"
 									value="#{editEmployeeController.percent}">
 								</p:spinner>
 
-								<p:outputLabel value="% Comisión"></p:outputLabel>
-								<p:spinner id="percentCommission" suffix="%" min="0" size="10"
-									maxlength="10" max="1000" stepFactor="0.25" required="true"
-									requiredMessage="Ingrese Comisión"
-									value="#{editEmployeeController.percentCommission}"></p:spinner>
+
 
 								<p:outputLabel value="% Incentivo"></p:outputLabel>
-								<p:spinner id="percentIncentive" min="0" size="10" max="1000"
+								<p:spinner id="percentIncentive" min="0"
 									stepFactor="0.25" required="true" suffix="%"
 									requiredMessage="Ingrese Incentivo"
 									value="#{editEmployeeController.percentIncentive}"></p:spinner>
@@ -106,7 +111,7 @@
 										process="@this :form:percent :form:percentCommission :form:percentIncentive"
 										actionListener="#{editEmployeeController.addObjective}"
 										value="Agregar Objetivo"
-										update=":form:objectivesTable  :form:percent :form:percentCommission :form:percentIncentive :messages">
+										update=":form:objectivesTable  :form:percent  :form:percentIncentive :messages">
 									</p:commandButton>
 								</h:panelGrid>
 
@@ -118,19 +123,14 @@
 
 								<p:column headerText="Objetivo">
 									<h:outputText value="#{u.percent}">
-										<f:convertNumber type="percent" />
+										<f:convertNumber type="percent"  maxFractionDigits="2" locale="en"/>
 									</h:outputText>
 								</p:column>
 
-								<p:column headerText="% Comisión">
-									<h:outputText value="#{u.percentCommission}">
-										<f:convertNumber type="percent" />
-									</h:outputText>
-								</p:column>
 
 								<p:column headerText="% Incentivo">
 									<h:outputText value="#{u.percentIncentive}">
-										<f:convertNumber type="percent" />
+										<f:convertNumber type="percent" maxFractionDigits="2" locale="en"/>
 									</h:outputText>
 								</p:column>
 

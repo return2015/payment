@@ -96,59 +96,62 @@
 				
 				<p:column headerText="Básico">
 					<h:outputText value="#{r.basic}">
-					<f:convertNumber type="currency" locale="es_PE" />
-					</h:outputText>
-				</p:column>
-				
-				<p:column headerText="Incentivo">
-					<h:outputText value="#{r.incentive}">
-					<f:convertNumber type="currency" locale="es_PE" />
-					</h:outputText>
-				</p:column>
-				
-				
-				<p:column headerText="Ventas">
-					<h:outputText value="#{r.sale}">
-					<f:convertNumber type="currency" locale="es_PE" />
+					<f:convertNumber currencySymbol="S/." type="currency" locale="en" maxFractionDigits="0" />
 					</h:outputText>
 				</p:column>
 				
 				<p:column headerText="Objetivo">
-					<h:outputText value="#{r.percent}">
-					<f:convertNumber type="percent"  />
+					<h:outputText value="#{r.objective}">
+					<f:convertNumber currencySymbol="S/." type="currency" locale="en" maxFractionDigits="0" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Incentivo Total">
+					<h:outputText value="#{r.incentiveTotal}">
+					<f:convertNumber currencySymbol="S/." type="currency" locale="en" maxFractionDigits="0" />
 					</h:outputText>
 				</p:column>
 				
 				<p:column headerText="% Comisión">
-					<h:outputText value="#{r.percentCommision}">
-					<f:convertNumber type="percent"  />
+					<h:outputText value="#{r.percentCommision}" >
+					<f:convertNumber type="percent" maxFractionDigits="2" locale="en"/>
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Ventas">
+					<h:outputText value="#{r.sale}">
+					<f:convertNumber currencySymbol="S/."  type="currency" locale="en" maxFractionDigits="0" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="%Objetivo">
+					<h:outputText value="#{r.percent}">
+					<f:convertNumber type="percent" maxFractionDigits="2" locale="en" />
 					</h:outputText>
 				</p:column>
 				
 				<p:column headerText="% Incentivo">
 					<h:outputText value="#{r.percentIncentive}">
-					<f:convertNumber type="percent"  />
+					<f:convertNumber type="percent" maxFractionDigits="2" locale="en"/>
 					</h:outputText>
 				</p:column>
 				
-				
-				
-				<p:column headerText="Incentivo Total">
-					<h:outputText value="#{r.incentiveTotal}">
-					<f:convertNumber type="currency" locale="es_PE" />
+				<p:column headerText="Incentivo">
+					<h:outputText value="#{r.incentive}">
+					<f:convertNumber currencySymbol="S/." type="currency" locale="en" maxFractionDigits="0"/>
 					</h:outputText>
 				</p:column>
 				
-				<p:column headerText="Comisión Total">
-					<h:outputText value="#{r.commissionTotal}">
-					<f:convertNumber type="currency" locale="es_PE" />
+				<p:column headerText="Comisión">
+					<h:outputText value="#{r.commission}">
+					<f:convertNumber currencySymbol="S/."  type="currency" locale="en" maxFractionDigits="0"/>
 					</h:outputText>
 				</p:column>
 				
 				
 				<p:column headerText="Pago Total">
 					<h:outputText value="#{r.total}">
-					<f:convertNumber type="currency" locale="es_PE" />
+					<f:convertNumber currencySymbol="S/." type="currency" locale="en" maxFractionDigits="0"/>
 					</h:outputText>
 				</p:column>
 				

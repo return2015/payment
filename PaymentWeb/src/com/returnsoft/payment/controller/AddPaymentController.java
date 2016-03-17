@@ -125,25 +125,24 @@ public class AddPaymentController implements Serializable {
 			System.out.println("sales:" + sales);
 
 			BigDecimal basic = paymentSelected.getEmployee().getBasic().setScale(2, RoundingMode.HALF_UP);
-			BigDecimal commissionAmount = new BigDecimal(0);
-			BigDecimal incentiveAmount = new BigDecimal(0);
+			BigDecimal objective = paymentSelected.getEmployee().getObjective().setScale(2, RoundingMode.HALF_UP);
+			Double percentCommission = paymentSelected.getEmployee().getPercentCommission();
 			BigDecimal salesAmount = new BigDecimal(sales);
+			BigDecimal commissionAmount = salesAmount.multiply(new BigDecimal(percentCommission)).setScale(4,
+					RoundingMode.HALF_UP);
+			BigDecimal incentiveTotal = paymentSelected.getEmployee().getIncentive().setScale(2, RoundingMode.HALF_UP);
+			BigDecimal incentiveAmount = new BigDecimal(0);
+			
+			
+			
 			
 			List<Objective> objectivesFound = paymentSelected.getEmployee().getObjectives();
 
 			if (objectivesFound != null && objectivesFound.size() > 0) {
 
-				
-
-				BigDecimal objective = paymentSelected.getEmployee().getObjective().setScale(2, RoundingMode.HALF_UP);
-				BigDecimal incentive = paymentSelected.getEmployee().getIncentive().setScale(2, RoundingMode.HALF_UP);
-
 				Double currentPercent = salesAmount.divide(objective, 4, RoundingMode.HALF_UP).doubleValue();
 
-				objectiveDetected = null;
-				System.out.println("objectives:" + objectivesFound.size());
-				System.out.println("currentPercent:" + currentPercent);
-				
+				/////////////////
 				Collections.sort(objectivesFound, new Comparator<Objective>() {
 					@Override
 					public int compare(Objective p1, Objective p2) {
@@ -152,16 +151,11 @@ public class AddPaymentController implements Serializable {
 
 				});
 
+				objectiveDetected = null;
 				for (int i = 0; i < objectivesFound.size(); i++) {
-
 					Objective objectiveFound = objectivesFound.get(i);
-					
-					System.out.println("percentStart:" + objectiveFound.getPercent());
-					//System.out.println("percentEnd:" + objectiveFound.getPercentEnd());
-
 					if (i + 1 < objectivesFound.size()) {
 						Objective objectiveFound2 = objectivesFound.get(i + 1);
-						System.out.println("percentStart2:" + objectiveFound2.getPercent());
 						if (currentPercent >= objectiveFound.getPercent()
 								&& currentPercent < objectiveFound2.getPercent()) {
 							objectiveDetected = objectiveService.findById(objectiveFound.getId());
@@ -173,56 +167,44 @@ public class AddPaymentController implements Serializable {
 							break;
 						}
 					}
-
-					
-					/*if (currentPercent >= objectiveFound.getPercentStart()
-							&& currentPercent <= objectiveFound.getPercentEnd()) {
-						objectiveDetected = objectiveService.findById(objectiveFound.getId());
-						break;
-					}*/
 				}
 
 				if (objectiveDetected != null) {
-
-					System.out.println("salesAmount:" + objectiveDetected.getId());
-					System.out.println("salesAmount:" + objectiveDetected.getPercentCommission());
-					System.out.println("salesAmount:" + salesAmount);
-
-					commissionAmount = salesAmount.multiply(new BigDecimal(objectiveDetected.getPercentCommission()))
-							.setScale(4, RoundingMode.HALF_UP);
-					incentiveAmount = incentive.multiply(new BigDecimal(objectiveDetected.getPercentIncentive())).setScale(4,
+					incentiveAmount = incentiveTotal.multiply(new BigDecimal(objectiveDetected.getPercentIncentive())).setScale(4,
 							RoundingMode.HALF_UP);
-					
-
 				} else {
-					commissionAmount = new BigDecimal(0);
+					
 					incentiveAmount = new BigDecimal(0);
-
-					facesUtil.sendErrorMessage("No se encontró objetivo");
-
+					facesUtil.sendConfirmMessage("No se encontró objetivo");
 				}
+				
 			} else {
-				commissionAmount = new BigDecimal(0);
 				incentiveAmount = new BigDecimal(0);
+				facesUtil.sendConfirmMessage("No se encontró objetivo");
 			}
+			
+			//////////////////////////////////////
 
 			BigDecimal totalAmount = basic.add(commissionAmount).add(incentiveAmount).setScale(2, RoundingMode.HALF_UP);
 			
-			paymentSelected.setBasic(paymentSelected.getEmployee().getBasic());
-			paymentSelected.setObjective(paymentSelected.getEmployee().getObjective());
-			paymentSelected.setIncentive(paymentSelected.getEmployee().getIncentive());
-			paymentSelected.setPercentIncentive(objectiveDetected.getPercentIncentive());
-			paymentSelected.setPercentCommision(objectiveDetected.getPercentCommission());
-			paymentSelected.setCommissionTotal(commissionAmount);
-			paymentSelected.setIncentiveTotal(incentiveAmount);
-			paymentSelected.setTotal(totalAmount);
+			paymentSelected.setBasic(basic);
+			paymentSelected.setObjective(objective);
+			paymentSelected.setIncentiveTotal(incentiveTotal);
+			paymentSelected.setPercentCommision(percentCommission);
+			
 			paymentSelected.setSale(salesAmount);
-			paymentSelected.setPercent(objectiveDetected.getPercent());
+			if (objectiveDetected!=null) {
+				paymentSelected.setPercentIncentive(objectiveDetected.getPercentIncentive());
+				paymentSelected.setPercent(objectiveDetected.getPercent());	
+			}
+			paymentSelected.setIncentive(incentiveAmount);
+			paymentSelected.setCommission(commissionAmount);
+			
+			paymentSelected.setTotal(totalAmount);
+			
+			
 			paymentSelected.setCreatedAt(new Date());
 			paymentSelected.setCreatedBy(sessionBean.getUser());
-			
-			
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();

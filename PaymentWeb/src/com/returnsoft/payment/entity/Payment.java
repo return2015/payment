@@ -30,15 +30,13 @@ public class Payment implements Serializable{
 	@Column(name = "pay_id")
 	private Long id;
 	
-	@Column(name = "pay_obj_percent")
-	private Double percent;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="pay_date")
+	private Date date;
 	
-	
-	@Column(name = "pay_obj_commision")
-	private Double percentCommision;
-	
-	@Column(name = "pay_obj_incentive")
-	private Double percentIncentive;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="pay_emp_id")
+	private Employee employee;
 	
 	@Column(name = "pay_basic")
 	private BigDecimal basic;
@@ -47,31 +45,36 @@ public class Payment implements Serializable{
 	private BigDecimal objective;
 	
 	
-	@Column(name = "pay_commision_total")
-	private BigDecimal commissionTotal;
 	
 	@Column(name = "pay_incentive_total")
 	private BigDecimal incentiveTotal;
 	
+	@Column(name = "pay_percent_commission")
+	private Double percentCommision;
 	
+	
+	/////////////
+	
+	@Column(name = "pay_sale")
+	private BigDecimal sale;
+	
+	@Column(name = "pay_percent")
+	private Double percent;
+	
+	@Column(name = "pay_percent_incentive")
+	private Double percentIncentive;
 	
 	@Column(name = "pay_incentive")
 	private BigDecimal incentive;
 	
-	@Column(name = "pay_sale")
-	private BigDecimal sale;
+	@Column(name = "pay_commission")
+	private BigDecimal commission;
 	
 	@Column(name = "pay_total")
 	private BigDecimal total;
 	
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="pay_date")
-	private Date date;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="pay_emp_id")
-	private Employee employee;
 	
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -196,14 +199,6 @@ public class Payment implements Serializable{
 		this.createdBy = createdBy;
 	}
 
-	public BigDecimal getCommissionTotal() {
-		return commissionTotal;
-	}
-
-	public void setCommissionTotal(BigDecimal commissionTotal) {
-		this.commissionTotal = commissionTotal;
-	}
-
 	public BigDecimal getIncentiveTotal() {
 		return incentiveTotal;
 	}
@@ -211,7 +206,18 @@ public class Payment implements Serializable{
 	public void setIncentiveTotal(BigDecimal incentiveTotal) {
 		this.incentiveTotal = incentiveTotal;
 	}
+
+	public BigDecimal getCommission() {
+		return commission;
+	}
+
+	public void setCommission(BigDecimal commission) {
+		this.commission = commission;
+	}
+
 	
+
+
 	
 	
 	
